@@ -1,11 +1,14 @@
 import os
 import shutil
 
+from generate_page import generate_page
 
 def main():
     static_path = "./static"
     public_path = "./public"
     prepare_static_to_public(static_path, public_path)
+
+    generate_page("./content/index.md", "./template.html", "./public/index.html")
 
 
 def prepare_static_to_public(static_path, public_path):

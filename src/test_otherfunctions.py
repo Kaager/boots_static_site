@@ -2,6 +2,7 @@ import unittest
 
 from textnode import TextNode, TextType
 from otherfunctions import split_nodes_delimiter, extract_markdown_images, extract_markdown_link, split_nodes_image, split_nodes_link, text_to_textnodes
+from otherfunctions import extract_title
 
 class TestSplitNodesDelimiter(unittest.TestCase):
     def test_code_delimiter(self):
@@ -332,3 +333,27 @@ class TestTextToTextnodes(unittest.TestCase):
     def test_unclosed_bold_raises(self):
         with self.assertRaises(Exception):
             text_to_textnodes("**unclosed bold")
+
+class TestExtractTitle(unittest.TestCase):
+    def test_extract_simple_tile(self):
+        markdown = "# Hello"
+        title = extract_title(markdown)
+        self.assertEqual("Hello", title)
+
+    def test_no_title(self):
+        markdown = "## Hello"
+        with self.assertRaises(Exception):
+            extract_title(markdown)
+
+    def test_no_title_with_err_msg(self):
+        markdown = "alsækdfjaælsdjfalæjfælasjdfælasjdfælasdjkf \nalsdjfaklæsjdflækasjdf"
+        with self.assertRaises(Exception) as err_obj:
+            extract_title(markdown)
+        self.assertEqual("no header (h1) found", str(err_obj.exception))
+
+    def test_extrace_title_further_down(self):
+        markdown = "alskdjfalæsjdf\n\n## Hello\n\n# World"
+        title = extract_title(markdown)
+        self.assertEqual("World", title)
+
+    
