@@ -1,14 +1,14 @@
 import os
 import shutil
 
-from generate_page import generate_page
+from generate_page import generate_page, generate_page_recursive
 
 def main():
     static_path = "./static"
     public_path = "./public"
     prepare_static_to_public(static_path, public_path)
 
-    generate_page("./content/index.md", "./template.html", "./public/index.html")
+    generate_page_recursive("./content", "./template.html", "./public")
 
 
 def prepare_static_to_public(static_path, public_path):
