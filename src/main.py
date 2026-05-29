@@ -1,14 +1,21 @@
 import os
+import sys
 import shutil
 
-from generate_page import generate_page, generate_page_recursive
+from generate_page import generate_page, generate_pages_recursive
 
 def main():
+
+    if len(sys.argv) > 1:
+        basepath = sys.argv[1]
+    else:
+        basepath = "/"
+
     static_path = "./static"
-    public_path = "./public"
+    public_path = "./docs"
     prepare_static_to_public(static_path, public_path)
 
-    generate_page_recursive("./content", "./template.html", "./public")
+    generate_pages_recursive("./content", "./template.html", public_path, basepath)
 
 
 def prepare_static_to_public(static_path, public_path):
